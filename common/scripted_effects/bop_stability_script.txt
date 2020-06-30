@@ -84,6 +84,10 @@ stability_monthly = {
 		#threashold calculation
 		multiply_variable = { which = threashold_stab_up which = stab_modifier_up }
 		multiply_variable = { which = threashold_stab_down which = stab_modifier_down }
+
+		if = { limit = { check_variable = { which = threashold_stab_down value = 0 } }
+			set_variable = { which = threashold_stab_down value = -5 }
+		}
 		
 		#stab up
 		if = { limit = { check_variable = { which = current_stab which = threashold_stab_up } }
