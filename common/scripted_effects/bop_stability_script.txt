@@ -1,0 +1,237 @@
+
+
+
+
+stability_monthly = {
+	if = { limit = { has_country_flag = stab_set }
+	
+		#monthly increase
+		set_variable = { which = num_estates value = 0 }
+		set_variable = { which = total_estates value = 0 }
+		
+		stability_monthly_calc = { ESTATE = nobles }
+		stability_monthly_calc = { ESTATE = burghers }
+		stability_monthly_calc = { ESTATE = church }
+		
+		stability_monthly_calc = { ESTATE = cossacks }
+		stability_monthly_calc = { ESTATE = dhimmi }
+		stability_monthly_calc = { ESTATE = nomadic_tribes }
+		
+		stability_monthly_calc = { ESTATE = brahmins }
+		stability_monthly_calc = { ESTATE = maratha }
+		stability_monthly_calc = { ESTATE = vaisyas }
+		stability_monthly_calc = { ESTATE = jains }
+		stability_monthly_calc = { ESTATE = rajput }
+		
+		# if = {
+			# limit = { has_country_flag = tib_factions_set }
+			# stability_monthly_faction = yes
+		# }
+		
+		if = {
+			limit = { check_variable = { which = num_estates value = 1 } }
+			
+			divide_variable = { which = total_estates which = num_estates }
+		}
+		
+		#add mana
+		export_to_variable = { which = temp value = ADM who = ROOT }
+		change_variable = { which = temp value = -3 }
+		divide_variable = { which = temp value = 10 }
+		change_variable = { which = total_estates which = temp }
+		export_to_variable = { which = temp value = DIP who = ROOT }
+		change_variable = { which = temp value = -3 }
+		divide_variable = { which = temp value = 10 }
+		change_variable = { which = total_estates which = temp }
+		export_to_variable = { which = temp value = MIL who = ROOT }
+		change_variable = { which = temp value = -3 }
+		divide_variable = { which = temp value = 10 }
+		change_variable = { which = total_estates which = temp }
+		
+		#update current progress
+		change_variable = { which = current_stab which = total_estates }
+		
+		
+		#modifier calculation
+		set_variable = { which = threashold_stab_up value = 100 }
+		set_variable = { which = threashold_stab_down value = -50 }
+		
+		export_to_variable = { which = stab_modifier_up value = modifier:stability_cost_modifier who = ROOT }  #up = mod
+		set_variable = { which = stab_modifier_down value = 1 }  #down = 1
+		subtract_variable = { which = stab_modifier_down which = stab_modifier_up }  #down = down - up = 1 - mod
+		change_variable = { which = stab_modifier_up value = 1 }  #up = 1 + up = 1 + mod
+		
+		#minimum modifiers
+		if = { limit = { NOT = { check_variable = { which = threashold_stab_up value = 0.1 } } }
+			set_variable = { which = stab_modifier_up value = 0.1 }
+			set_variable = { which = stab_modifier_down value = 1.9 }
+		}
+		
+		#threashold calculation
+		multiply_variable = { which = threashold_stab_up which = stab_modifier_up }
+		multiply_variable = { which = threashold_stab_down which = stab_modifier_down }
+
+		if = { limit = { check_variable = { which = threashold_stab_down value = 0 } }
+			set_variable = { which = threashold_stab_down value = -5 }
+		}
+		
+		#stab up
+		if = { limit = { check_variable = { which = current_stab which = threashold_stab_up } }
+			add_stability = 1
+			
+			set_variable = { which = current_stab value = 0 }
+		}
+		#stab down
+		else_if = { limit = { check_variable = { which = threashold_stab_down which = current_stab } }
+			add_stability = -1
+			
+			set_variable = { which = current_stab value = 0 }
+		}
+	}
+	else = {
+		set_variable = { which = current_stab value = 0 }
+		
+		set_country_flag = stab_set
+	}
+}
+
+stability_monthly_calc = {
+	if = { limit = { has_estate = estate_$ESTATE$ }
+		change_variable = { which = num_estates value = 1 }
+		
+		set_variable = { which = temp_stab value = 0 }
+		if = { limit = { estate_loyalty = { estate = estate_$ESTATE$ loyalty = 60 } } 
+			change_variable = { which = temp_stab value = 1 }
+		}
+		else_if = { limit = { estate_loyalty = { estate = estate_$ESTATE$ loyalty = 40 } } 
+			change_variable = { which = temp_stab value = 0 }
+		}
+		else = { 
+			change_variable = { which = temp_stab value = -1 }
+		}
+		
+		if = { limit = { estate_influence = { estate = estate_$ESTATE$ influence = 100 } } 
+			multiply_variable = { which = temp_stab value = 5 }
+		}
+		else_if = { limit = { estate_influence = { estate = estate_$ESTATE$ influence = 80 } } 
+			multiply_variable = { which = temp_stab value = 4 }
+		}
+		else_if = { limit = { estate_influence = { estate = estate_$ESTATE$ influence = 60 } } 
+			multiply_variable = { which = temp_stab value = 3 }
+		}
+		else_if = { limit = { estate_influence = { estate = estate_$ESTATE$ influence = 40 } } 
+			multiply_variable = { which = temp_stab value = 2 }
+		}
+		else_if = { limit = { estate_influence = { estate = estate_$ESTATE$ influence = 20 } } 
+			multiply_variable = { which = temp_stab value = 1 }
+		}
+		else = {
+			multiply_variable = { which = temp_stab value = 0 }
+		}
+		
+		change_variable = { which = total_estates which = temp_stab }
+	}
+}
+
+stability_monthly_faction = {
+
+	if = {
+		limit = { 
+			has_parliament = yes 
+			OR = {
+				has_country_flag = tib_coalition_adm_dip 
+				has_country_flag = tib_coalition_adm_mil 
+				has_country_flag = tib_coalition_dip_mil
+			}
+		}
+		
+		if = {
+			limit = {
+				OR = {
+					AND = { 
+						has_country_flag = tib_coalition_adm_dip 
+						OR = {
+							NOT = { faction_influence = { faction = mr_aristocrats influence = 25 } }
+							NOT = { faction_influence = { faction = rr_girondists influence = 25 } }
+							NOT = { faction_influence = { faction = pr_captains influence = 25 } }
+						}
+					}
+					AND = { 
+						has_country_flag = tib_coalition_adm_mil 
+						OR = {
+							NOT = { faction_influence = { faction = mr_traders influence = 25 } }
+							NOT = { faction_influence = { faction = rr_royalists influence = 25 } }
+							NOT = { faction_influence = { faction = pr_smugglers influence = 25 } }
+						}
+					}
+					AND = { 
+						has_country_flag = tib_coalition_dip_mil
+						OR = {
+							NOT = { faction_influence = { faction = mr_guilds influence = 25 } }
+							NOT = { faction_influence = { faction = rr_jacobins influence = 25 } }
+							NOT = { faction_influence = { faction = pr_buccaneers influence = 25 } }
+						}
+					}
+				}
+			}
+			
+			change_variable = { which = total_estates value = 4 }
+		}
+		else = {
+			change_variable = { which = total_estates value = 1 }
+		}
+	}
+	else = {
+		if = {
+			limit = { 
+				OR = {
+					faction_with_power = { FACTION = mr_aristocrats INF = 75 }
+					faction_with_power = { FACTION = mr_traders INF = 75 }
+					faction_with_power = { FACTION = mr_guilds INF = 75 }
+					
+					faction_with_power = { FACTION = rr_girondists INF = 75 }
+					faction_with_power = { FACTION = rr_jacobins INF = 75 }
+					faction_with_power = { FACTION = rr_royalists INF = 75 }
+					
+					faction_with_power = { FACTION = pr_captains INF = 75 }
+					faction_with_power = { FACTION = pr_buccaneers INF = 75 }
+					faction_with_power = { FACTION = pr_smugglers INF = 75 }
+				}
+			}
+			
+			change_variable = { which = total_estates value = 4 }
+		}
+		else_if = {
+			limit = { 
+				OR = {
+					faction_with_power = { FACTION = mr_aristocrats INF = 50 }
+					faction_with_power = { FACTION = mr_traders INF = 50 }
+					faction_with_power = { FACTION = mr_guilds INF = 50 }
+					
+					faction_with_power = { FACTION = rr_girondists INF = 50 }
+					faction_with_power = { FACTION = rr_jacobins INF = 50 }
+					faction_with_power = { FACTION = rr_royalists INF = 50 }
+					
+					faction_with_power = { FACTION = pr_captains INF = 50 }
+					faction_with_power = { FACTION = pr_buccaneers INF = 50 }
+					faction_with_power = { FACTION = pr_smugglers INF = 50 }
+				}
+			}
+			
+			change_variable = { which = total_estates value = 1 }
+		}
+		else = {
+			change_variable = { which = total_estates value = -2 }
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,36 @@
+﻿l_english: 
+ bop_stability_progress:0 "Stability Progress"
+ 
+ DESC_BOP_STABILITY_PROGRESS:0 "\nCurrent Stability Progress: §Y[Root.current_stab.GetValue]§!\n\n Positive Threshold: §G[Root.threashold_stab_up.GetValue]§!\n Negative Threshold: §R[Root.threashold_stab_down.GetValue]§!\n §gIf a threshold is reached, the country will gain or lose stability accordingly. Thresholds are modified by Stability Cost Modifier, directly (Positive, base = 100) and inversely (Negative, base = -50).§!\n\n Current Progress Gain: §G[Root.total_estates.GetValue]§!\n §gStability Progress Gain is dependent on many factors:\n-The ruler's skills in £adm£, £dip£ and £mil£ gives from§! §R-0.3§! §gto§! §G0.3§! §gprogress for each category.\n-Every 20% influence from estates gives§! §Y1§! §gprogress,§! §Gloyal§! §gestates increases progress towards stability,§! §Rdisloyal§! §gones decreases it. The average of that value for every estate present is the progress value.§!"
+ 
+ DESC_BOP_STABILITY_NEG_PROGRESS:0 "\nCurrent Stability Progress Gain is §RNgative§!!\nCurrent Stability Progress: §Y[Root.current_stab.GetValue]§!\n\n Positive Threshold: §G[Root.threashold_stab_up.GetValue]§!\n Negative Threshold: §R[Root.threashold_stab_down.GetValue]§!\n §gIf a threshold is reached, the country will gain or lose stability accordingly. Thresholds are modified by Stability Cost Modifier, directly (Positive, base = 100) and inversely (Negative, base = -50).§!\n\n Current Progress Gain: §R[Root.total_estates.GetValue]§!\n §gStability Progress Gain is dependent on many factors:\n-The ruler's skills in £adm£, £dip£ and £mil£ gives from§! §R-0.3§! §gto§! §G0.3§! §gprogress for each category.\n-Every 20% influence from estates gives§! §Y1§! §gprogress,§! §Gloyal§! §gestates increases progress towards stability,§! §Rdisloyal§! §gones decreases it. The average of that value for every estate present is the progress value.§!"
+ 
+ 
+
+ tib_adm_a:0 "Appointment Based on Performance"
+ tib_dip_a:0 "Appointment Based on Donations"
+ tib_mil_a:0 "Appointment Based on Property"
+
+ tib_adm_b:0 "Promotion of National Products Abroad"
+ tib_dip_b:0 "Promotion of Business Relations"
+ tib_mil_b:0 "Promotion of Culture and Tradition"
+
+ tib_adm_c:0 "Morale Focus"
+ tib_dip_c:0 "Navy Focus"
+ tib_mil_c:0 "Discipline Focus"
+ 
+ 
+ 
+ 
+ 
+ tib_coalition_guilds:0 "Form coalition with the Guilds.\nTheir Estate will not be more disloyal as a result, but will gain more influence."
+ tib_coalition_jacobins:0 "Form coalition with the Jacobins.\nTheir Estate will not be more disloyal as a result, but will gain more influence."
+ tib_coalition_buccaneers:0 "Form coalition with the Buccaneers.\nTheir Estate will not be more disloyal as a result, but will gain more influence."
+ 
+ tib_coalition_traders:0 "Form coalition with the Traders.\nTheir Estate will not be more disloyal as a result, but will gain more influence."
+ tib_coalition_royalists:0 "Form coalition with the Royalists.\nTheir Estate will not be more disloyal as a result, but will gain more influence."
+ tib_coalition_smugglers:0 "Form coalition with the Smugglers.\nTheir Estate will not be more disloyal as a result, but will gain more influence."
+ 
+ tib_coalition_aristocrats:0 "Form coalition with the Aristocrats.\nTheir Estate will not be more disloyal as a result, but will gain more influence."
+ tib_coalition_girondists:0 "Form coalition with the Girondists.\nTheir Estate will not be more disloyal as a result, but will gain more influence."
+ tib_coalition_captains:0 "Form coalition with the Captains.\nTheir Estate will not be more disloyal as a result, but will gain more influence."

@@ -1,0 +1,18 @@
+﻿l_english: 
+ tib_str_gov_interaction:0 "Strengthen Government"
+ tib_str_gov:0 "Government Strengthened"
+ 
+ tib_reduce_inflation_privilege:0 "Regulate Banking"
+ tib_reduce_inflation_privilege_desc:0 "Inflation has been running rampant in our nation, we need to take measures to manage it. By regulating banks and achieving a better control in the circulation of our currency, we might be able to do it."
+ tib_reduce_inflation:0 "Regulated Banking"
+ 
+ tib_reduce_we_privilege:0 "Open Relief Fund"
+ tib_reduce_we_privilege_desc:0 "Our nation is torn by war, and our population grows weary. With assistance of the clergy, we'll be able to run a relief fund to help those in the direst situations."
+ tib_reduce_we:0 "Relief Fund"
+ 
+ 
+ EST_VAL_STATIST_IN_POWER_TIB:0 "Statists in Power: §Y10%§!"
+ EST_VAL_CITIZENRY_REFORM_TIB:0 "Citizenry Electorate: §Y10%§!"
+ EST_VAL_MONARCHIST_IN_POWER_TIB:0 "Monarchists in Power: §Y10%§!"
+ EST_VAL_LANDHOLDERS_REFORM_TIB:0 "Landholders Electorate: §Y10%§!"
+ EST_VAL_RULER_LOYALTY_TIB:0 "Ruler's Faction: §Y10%§!"
