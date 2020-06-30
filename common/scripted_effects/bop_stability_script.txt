@@ -8,6 +8,8 @@ stability_monthly = {
 		#monthly increase
 		set_variable = { which = num_estates value = 0 }
 		set_variable = { which = total_estates value = 0 }
+		set_variable = { which = prog_mana value = 0 }
+		set_variable = { which = prog_estates value = 0 }
 		
 		stability_monthly_calc = { ESTATE = nobles }
 		stability_monthly_calc = { ESTATE = burghers }
@@ -28,25 +30,37 @@ stability_monthly = {
 			# stability_monthly_faction = yes
 		# }
 		
-		if = {
-			limit = { check_variable = { which = num_estates value = 1 } }
+		# if = {
+			# limit = { check_variable = { which = num_estates value = 1 } }
 			
-			divide_variable = { which = total_estates which = num_estates }
-		}
+			# divide_variable = { which = total_estates which = num_estates }
+		# }
+		divide_variable = { which = total_estates which = num_estates }
 		
-		#add mana
+		change_variable = { which = prog_estates which = total_estates }
+		
+		#add mana		
 		export_to_variable = { which = temp value = ADM who = ROOT }
 		change_variable = { which = temp value = -3 }
 		divide_variable = { which = temp value = 10 }
-		change_variable = { which = total_estates which = temp }
+		change_variable = { which = prog_mana which = temp }
 		export_to_variable = { which = temp value = DIP who = ROOT }
 		change_variable = { which = temp value = -3 }
 		divide_variable = { which = temp value = 10 }
-		change_variable = { which = total_estates which = temp }
+		change_variable = { which = prog_mana which = temp }
 		export_to_variable = { which = temp value = MIL who = ROOT }
 		change_variable = { which = temp value = -3 }
 		divide_variable = { which = temp value = 10 }
-		change_variable = { which = total_estates which = temp }
+		change_variable = { which = prog_mana which = temp }
+			
+		if = { 
+			limit = { ai = yes }
+			
+			change_variable = { which = prog_mana value = 0.9 }
+			divide_variable = { which = prog_mana value = 2 }
+		}
+		
+		change_variable = { which = total_estates which = prog_mana }
 		
 		#update current progress
 		change_variable = { which = current_stab which = total_estates }
@@ -70,10 +84,6 @@ stability_monthly = {
 		#threashold calculation
 		multiply_variable = { which = threashold_stab_up which = stab_modifier_up }
 		multiply_variable = { which = threashold_stab_down which = stab_modifier_down }
-
-		if = { limit = { check_variable = { which = threashold_stab_down value = 0 } }
-			set_variable = { which = threashold_stab_down value = -5 }
-		}
 		
 		#stab up
 		if = { limit = { check_variable = { which = current_stab which = threashold_stab_up } }
