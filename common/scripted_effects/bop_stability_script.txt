@@ -5,11 +5,27 @@
 stability_monthly = {
 	if = { limit = { has_country_flag = stab_set }
 	
+		#absolutism
+		absolutism_monthly_calc = yes
+		
+		 #from 0 to -50%, 1 to 0.5
+		set_variable = { which = absol_estates value = 200 }
+		subtract_variable = { which = absol_estates which = tib_absolutism }
+		divide_variable = { which = absol_estates value = 200 }
+		
+		 #from 0 to +50%, 1 to 1.5
+		set_variable = { which = absol_mana value = 200 }
+		change_variable = { which = absol_mana which = tib_absolutism }
+		divide_variable = { which = absol_mana value = 200 }
+		
+	
 		#monthly increase
 		set_variable = { which = num_estates value = 0 }
 		set_variable = { which = total_estates value = 0 }
 		set_variable = { which = prog_mana value = 0 }
+		set_variable = { which = prog_mana_mod value = 0 }
 		set_variable = { which = prog_estates value = 0 }
+		set_variable = { which = prog_estates_mod value = 0 }
 		
 		stability_monthly_calc = { ESTATE = nobles }
 		stability_monthly_calc = { ESTATE = burghers }
@@ -36,8 +52,12 @@ stability_monthly = {
 			# divide_variable = { which = total_estates which = num_estates }
 		# }
 		divide_variable = { which = total_estates which = num_estates }
-		
 		change_variable = { which = prog_estates which = total_estates }
+		
+		change_variable = { which = prog_estates_mod which = total_estates }
+		
+		multiply_variable = { which = total_estates which = absol_estates }
+		multiply_variable = { which = prog_estates_mod which = absol_estates }
 		
 		#add mana		
 		export_to_variable = { which = temp value = ADM who = ROOT }
@@ -60,7 +80,10 @@ stability_monthly = {
 			divide_variable = { which = prog_mana value = 2 }
 		}
 		
-		change_variable = { which = total_estates which = prog_mana }
+		change_variable = { which = prog_mana_mod which = prog_mana }
+		multiply_variable = { which = prog_mana_mod which = absol_mana }
+		
+		change_variable = { which = total_estates which = prog_mana_mod }
 		
 		#update current progress
 		change_variable = { which = current_stab which = total_estates }
@@ -71,26 +94,28 @@ stability_monthly = {
 		set_variable = { which = threashold_stab_down value = -50 }
 		
 		export_to_variable = { which = stab_modifier_up value = modifier:stability_cost_modifier who = ROOT }  #up = mod
-		set_variable = { which = stab_modifier_down value = 1 }  #down = 1
-		subtract_variable = { which = stab_modifier_down which = stab_modifier_up }  #down = down - up = 1 - mod
+		# set_variable = { which = stab_modifier_down value = 1 }  #down = 1
+		# subtract_variable = { which = stab_modifier_down which = stab_modifier_up }  #down = down - up = 1 - mod
 		change_variable = { which = stab_modifier_up value = 1 }  #up = 1 + up = 1 + mod
-		
-		#minimum modifiers
-		if = { limit = { NOT = { check_variable = { which = threashold_stab_up value = 0.1 } } }
-			set_variable = { which = stab_modifier_up value = 0.1 }
-			set_variable = { which = stab_modifier_down value = 1.9 }
-		}
 		
 		#threashold calculation
 		multiply_variable = { which = threashold_stab_up which = stab_modifier_up }
-		multiply_variable = { which = threashold_stab_down which = stab_modifier_down }
-
-		if = { limit = { check_variable = { which = threashold_stab_down value = 0 } }
-			set_variable = { which = threashold_stab_down value = -5 }
+		# multiply_variable = { which = threashold_stab_down which = stab_modifier_down }
+		
+		#minimum threashold
+		if = { 
+			limit = { NOT = { check_variable = { which = threashold_stab_up value = 10 } } } 
+			set_variable = { which = threashold_stab_up value = 10 }
 		}
 		
 		#stab up
 		if = { limit = { check_variable = { which = current_stab which = threashold_stab_up } }
+			if = { 
+				limit = { stability = 3 }
+				
+				add_adm_power = 100
+			}
+		
 			add_stability = 1
 			
 			set_variable = { which = current_stab value = 0 }
@@ -240,7 +265,432 @@ stability_monthly_faction = {
 	}
 }
 
-
+absolutism_monthly_calc = {
+	
+	if = {
+		limit = { absolutism = 90 }
+		if = { 
+			limit = { absolutism =  100  }
+			set_variable = { which = tib_absolutism value =  100  }
+		}
+		else_if = { 
+			limit = { absolutism =  99  }
+			set_variable = { which = tib_absolutism value =  99  }
+		}
+		else_if = { 
+			limit = { absolutism =  98  }
+			set_variable = { which = tib_absolutism value =  98  }
+		}
+		else_if = { 
+			limit = { absolutism =  97  }
+			set_variable = { which = tib_absolutism value =  97  }
+		}
+		else_if = { 
+			limit = { absolutism =  96  }
+			set_variable = { which = tib_absolutism value =  96  }
+		}
+		else_if = { 
+			limit = { absolutism =  95  }
+			set_variable = { which = tib_absolutism value =  95  }
+		}
+		else_if = { 
+			limit = { absolutism =  94  }
+			set_variable = { which = tib_absolutism value =  94  }
+		}
+		else_if = { 
+			limit = { absolutism =  93  }
+			set_variable = { which = tib_absolutism value =  93  }
+		}
+		else_if = { 
+			limit = { absolutism =  92  }
+			set_variable = { which = tib_absolutism value =  92  }
+		}
+		else_if = { 
+			limit = { absolutism =  91  }
+			set_variable = { which = tib_absolutism value =  91  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value =  90  }
+		}
+	}
+	else_if = { 
+		limit = { absolutism = 80 }
+		if = { 
+			limit = { absolutism =  89  }
+			set_variable = { which = tib_absolutism value =  89  }
+		}
+		else_if = { 
+			limit = { absolutism =  88  }
+			set_variable = { which = tib_absolutism value =  88  }
+		}
+		else_if = { 
+			limit = { absolutism =  87  }
+			set_variable = { which = tib_absolutism value =  87  }
+		}
+		else_if = { 
+			limit = { absolutism =  86  }
+			set_variable = { which = tib_absolutism value =  86  }
+		}
+		else_if = { 
+			limit = { absolutism =  85  }
+			set_variable = { which = tib_absolutism value =  85  }
+		}
+		else_if = { 
+			limit = { absolutism =  84  }
+			set_variable = { which = tib_absolutism value =  84  }
+		}
+		else_if = { 
+			limit = { absolutism =  83  }
+			set_variable = { which = tib_absolutism value =  83  }
+		}
+		else_if = { 
+			limit = { absolutism =  82  }
+			set_variable = { which = tib_absolutism value =  82  }
+		}
+		else_if = { 
+			limit = { absolutism =  81  }
+			set_variable = { which = tib_absolutism value =  81  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value =  80  }
+		}
+	}
+	else_if = { 
+		limit = { absolutism = 70 }
+		if = { 
+			limit = { absolutism =  79  }
+			set_variable = { which = tib_absolutism value =  79  }
+		}
+		else_if = { 
+			limit = { absolutism =  78  }
+			set_variable = { which = tib_absolutism value =  78  }
+		}
+		else_if = { 
+			limit = { absolutism =  77  }
+			set_variable = { which = tib_absolutism value =  77  }
+		}
+		else_if = { 
+			limit = { absolutism =  76  }
+			set_variable = { which = tib_absolutism value =  76  }
+		}
+		else_if = { 
+			limit = { absolutism =  75  }
+			set_variable = { which = tib_absolutism value =  75  }
+		}
+		else_if = { 
+			limit = { absolutism =  74  }
+			set_variable = { which = tib_absolutism value =  74  }
+		}
+		else_if = { 
+			limit = { absolutism =  73  }
+			set_variable = { which = tib_absolutism value =  73  }
+		}
+		else_if = { 
+			limit = { absolutism =  72  }
+			set_variable = { which = tib_absolutism value =  72  }
+		}
+		else_if = { 
+			limit = { absolutism =  71  }
+			set_variable = { which = tib_absolutism value =  71  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value =  70  }
+		}
+	}
+	else_if = { 
+		limit = { absolutism = 60 }
+		if = { 
+			limit = { absolutism =  69  }
+			set_variable = { which = tib_absolutism value =  69  }
+		}
+		else_if = { 
+			limit = { absolutism =  68  }
+			set_variable = { which = tib_absolutism value =  68  }
+		}
+		else_if = { 
+			limit = { absolutism =  67  }
+			set_variable = { which = tib_absolutism value =  67  }
+		}
+		else_if = { 
+			limit = { absolutism =  66  }
+			set_variable = { which = tib_absolutism value =  66  }
+		}
+		else_if = { 
+			limit = { absolutism =  65  }
+			set_variable = { which = tib_absolutism value =  65  }
+		}
+		else_if = { 
+			limit = { absolutism =  64  }
+			set_variable = { which = tib_absolutism value =  64  }
+		}
+		else_if = { 
+			limit = { absolutism =  63  }
+			set_variable = { which = tib_absolutism value =  63  }
+		}
+		else_if = { 
+			limit = { absolutism =  62  }
+			set_variable = { which = tib_absolutism value =  62  }
+		}
+		else_if = { 
+			limit = { absolutism =  61  }
+			set_variable = { which = tib_absolutism value =  61  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value =  60  }
+		}
+	}
+	else_if = { 
+		limit = { absolutism = 50 }
+		if = { 
+			limit = { absolutism =  59  }
+			set_variable = { which = tib_absolutism value =  59  }
+		}
+		else_if = { 
+			limit = { absolutism =  58  }
+			set_variable = { which = tib_absolutism value =  58  }
+		}
+		else_if = { 
+			limit = { absolutism =  57  }
+			set_variable = { which = tib_absolutism value =  57  }
+		}
+		else_if = { 
+			limit = { absolutism =  56  }
+			set_variable = { which = tib_absolutism value =  56  }
+		}
+		else_if = { 
+			limit = { absolutism =  55  }
+			set_variable = { which = tib_absolutism value =  55  }
+		}
+		else_if = { 
+			limit = { absolutism =  54  }
+			set_variable = { which = tib_absolutism value =  54  }
+		}
+		else_if = { 
+			limit = { absolutism =  53  }
+			set_variable = { which = tib_absolutism value =  53  }
+		}
+		else_if = { 
+			limit = { absolutism =  52  }
+			set_variable = { which = tib_absolutism value =  52  }
+		}
+		else_if = { 
+			limit = { absolutism =  51  }
+			set_variable = { which = tib_absolutism value =  51  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value =  50  }
+		}
+	}
+	else_if = { 
+		limit = { absolutism = 40 }
+		if = { 
+			limit = { absolutism =  49  }
+			set_variable = { which = tib_absolutism value =  49  }
+		}
+		else_if = { 
+			limit = { absolutism =  48  }
+			set_variable = { which = tib_absolutism value =  48  }
+		}
+		else_if = { 
+			limit = { absolutism =  47  }
+			set_variable = { which = tib_absolutism value =  47  }
+		}
+		else_if = { 
+			limit = { absolutism =  46  }
+			set_variable = { which = tib_absolutism value =  46  }
+		}
+		else_if = { 
+			limit = { absolutism =  45  }
+			set_variable = { which = tib_absolutism value =  45  }
+		}
+		else_if = { 
+			limit = { absolutism =  44  }
+			set_variable = { which = tib_absolutism value =  44  }
+		}
+		else_if = { 
+			limit = { absolutism =  43  }
+			set_variable = { which = tib_absolutism value =  43  }
+		}
+		else_if = { 
+			limit = { absolutism =  42  }
+			set_variable = { which = tib_absolutism value =  42  }
+		}
+		else_if = { 
+			limit = { absolutism =  41  }
+			set_variable = { which = tib_absolutism value =  41  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value =  40  }
+		}
+	}
+	else_if = { 
+		limit = { absolutism = 30 }
+		if = { 
+			limit = { absolutism =  39  }
+			set_variable = { which = tib_absolutism value =  39  }
+		}
+		else_if = { 
+			limit = { absolutism =  38  }
+			set_variable = { which = tib_absolutism value =  38  }
+		}
+		else_if = { 
+			limit = { absolutism =  37  }
+			set_variable = { which = tib_absolutism value =  37  }
+		}
+		else_if = { 
+			limit = { absolutism =  36  }
+			set_variable = { which = tib_absolutism value =  36  }
+		}
+		else_if = { 
+			limit = { absolutism =  35  }
+			set_variable = { which = tib_absolutism value =  35  }
+		}
+		else_if = { 
+			limit = { absolutism =  34  }
+			set_variable = { which = tib_absolutism value =  34  }
+		}
+		else_if = { 
+			limit = { absolutism =  33  }
+			set_variable = { which = tib_absolutism value =  33  }
+		}
+		else_if = { 
+			limit = { absolutism =  32  }
+			set_variable = { which = tib_absolutism value =  32  }
+		}
+		else_if = { 
+			limit = { absolutism =  31  }
+			set_variable = { which = tib_absolutism value =  31  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value =  30  }
+		}
+	}
+	else_if = { 
+		limit = { absolutism = 20 }
+		if = { 
+			limit = { absolutism =  29  }
+			set_variable = { which = tib_absolutism value =  29  }
+		}
+		else_if = { 
+			limit = { absolutism =  28  }
+			set_variable = { which = tib_absolutism value =  28  }
+		}
+		else_if = { 
+			limit = { absolutism =  27  }
+			set_variable = { which = tib_absolutism value =  27  }
+		}
+		else_if = { 
+			limit = { absolutism =  26  }
+			set_variable = { which = tib_absolutism value =  26  }
+		}
+		else_if = { 
+			limit = { absolutism =  25  }
+			set_variable = { which = tib_absolutism value =  25  }
+		}
+		else_if = { 
+			limit = { absolutism =  24  }
+			set_variable = { which = tib_absolutism value =  24  }
+		}
+		else_if = { 
+			limit = { absolutism =  23  }
+			set_variable = { which = tib_absolutism value =  23  }
+		}
+		else_if = { 
+			limit = { absolutism =  22  }
+			set_variable = { which = tib_absolutism value =  22  }
+		}
+		else_if = { 
+			limit = { absolutism =  21  }
+			set_variable = { which = tib_absolutism value =  21  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value =  20  }
+		}
+	}
+	else_if = { 
+		limit = { absolutism = 10 }
+		if = { 
+			limit = { absolutism =  19  }
+			set_variable = { which = tib_absolutism value =  19  }
+		}
+		else_if = { 
+			limit = { absolutism =  18  }
+			set_variable = { which = tib_absolutism value =  18  }
+		}
+		else_if = { 
+			limit = { absolutism =  17  }
+			set_variable = { which = tib_absolutism value =  17  }
+		}
+		else_if = { 
+			limit = { absolutism =  16  }
+			set_variable = { which = tib_absolutism value =  16  }
+		}
+		else_if = { 
+			limit = { absolutism =  15  }
+			set_variable = { which = tib_absolutism value =  15  }
+		}
+		else_if = { 
+			limit = { absolutism =  14  }
+			set_variable = { which = tib_absolutism value =  14  }
+		}
+		else_if = { 
+			limit = { absolutism =  13  }
+			set_variable = { which = tib_absolutism value =  13  }
+		}
+		else_if = { 
+			limit = { absolutism =  12  }
+			set_variable = { which = tib_absolutism value =  12  }
+		}
+		else_if = { 
+			limit = { absolutism =  11  }
+			set_variable = { which = tib_absolutism value =  11  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value =  10  }
+		}
+	}
+	else = { 
+		if = { 
+			limit = { absolutism = 9 }
+			set_variable = { which = tib_absolutism value = 9 }
+		}
+		else_if = { 
+			limit = { absolutism =  8  }
+			set_variable = { which = tib_absolutism value =  8  }
+		}
+		else_if = { 
+			limit = { absolutism =  7  }
+			set_variable = { which = tib_absolutism value =  7  }
+		}
+		else_if = { 
+			limit = { absolutism =  6  }
+			set_variable = { which = tib_absolutism value =  6  }
+		}
+		else_if = { 
+			limit = { absolutism =  5  }
+			set_variable = { which = tib_absolutism value =  5  }
+		}
+		else_if = { 
+			limit = { absolutism =  4  }
+			set_variable = { which = tib_absolutism value =  4  }
+		}
+		else_if = { 
+			limit = { absolutism =  3  }
+			set_variable = { which = tib_absolutism value =  3  }
+		}
+		else_if = { 
+			limit = { absolutism =  2  }
+			set_variable = { which = tib_absolutism value =  2  }
+		}
+		else_if = { 
+			limit = { absolutism =  1  }
+			set_variable = { which = tib_absolutism value =  1  }
+		}
+		else = { 
+			set_variable = { which = tib_absolutism value = 0 }
+		}
+	}
+}
 
 
 

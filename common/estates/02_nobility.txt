@@ -368,14 +368,6 @@ estate_nobles =
 		}
 	}
 
-	#tib names
-	custom_name = {
-		desc = string_influential_families
-		trigger = {
-			government = republic
-		}
-	}
-
 	color = { 200 0 50 }
 	
 	privileges = {
