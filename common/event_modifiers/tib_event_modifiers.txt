@@ -15,6 +15,14 @@ tib_reduce_we = {
 	war_exhaustion = -0.04
 }
 
+tib_reduce_inflation_tribe = {
+	inflation_reduction = 0.04
+}
+
+tib_reduce_we_tribe = {
+	war_exhaustion = -0.04
+}
+
 tib_str_gov = {
 	yearly_absolutism = 0.25
 

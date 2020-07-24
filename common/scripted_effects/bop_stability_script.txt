@@ -13,10 +13,10 @@ stability_monthly = {
 		subtract_variable = { which = absol_estates which = tib_absolutism }
 		divide_variable = { which = absol_estates value = 200 }
 		
-		 #from 0 to +50%, 1 to 1.5
-		set_variable = { which = absol_mana value = 200 }
+		 #from 0 to +50%, 1 to 2
+		set_variable = { which = absol_mana value = 100 }
 		change_variable = { which = absol_mana which = tib_absolutism }
-		divide_variable = { which = absol_mana value = 200 }
+		divide_variable = { which = absol_mana value = 100 }
 		
 	
 		#monthly increase
@@ -117,6 +117,8 @@ stability_monthly = {
 			}
 		
 			add_stability = 1
+			
+			add_absolutism = 1
 			
 			set_variable = { which = current_stab value = 0 }
 		}
