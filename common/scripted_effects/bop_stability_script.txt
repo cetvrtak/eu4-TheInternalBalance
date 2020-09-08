@@ -142,9 +142,12 @@ stability_monthly_calc = {
 		
 		set_variable = { which = temp_stab value = 0 }
 		if = { limit = { estate_loyalty = { estate = estate_$ESTATE$ loyalty = 60 } } 
-			change_variable = { which = temp_stab value = 1 }
+			change_variable = { which = temp_stab value = 2 }
 		}
 		else_if = { limit = { estate_loyalty = { estate = estate_$ESTATE$ loyalty = 40 } } 
+			change_variable = { which = temp_stab value = 1 }
+		}
+		else_if = { limit = { estate_loyalty = { estate = estate_$ESTATE$ loyalty = 30 } } 
 			change_variable = { which = temp_stab value = 0 }
 		}
 		else = { 
